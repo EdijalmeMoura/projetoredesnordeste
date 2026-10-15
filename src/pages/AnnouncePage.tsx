@@ -1,0 +1,26 @@
+import { useEffect, useState, type FormEvent } from 'react';
+import { ArrowRight, Check, HousePlus, ShieldCheck } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { api } from '../lib/api';
+import { setPageMeta } from '../lib/seo';
+
+export default function AnnouncePage() {
+  useEffect(() => { setPageMeta('Anuncie seu imóvel | Projeto Redes Nordeste', 'Envie informações do seu imóvel para análise da equipe do Projeto Redes Nordeste. Nenhum anúncio é publicado sem revisão.'); }, []);
+  const [loading, setLoading] = useState(false);
+  const [sent, setSent] = useState(false);
+  const [error, setError] = useState('');
+  const submit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault(); setLoading(true); setError('');
+    const form = new FormData(event.currentTarget);
+    const formElement = event.currentTarget;
+    try {
+      await api('/api/public/owner-inquiries', { method: 'POST', body: {
+        name: form.get('name'), phone: form.get('phone'), email: form.get('email'), propertyType: form.get('propertyType'),
+        purpose: form.get('purpose'), city: form.get('city'), neighborhood: form.get('neighborhood'), message: form.get('message'), consent: form.get('consent') === 'on',
+      } });
+      setSent(true); formElement.reset();
+    } catch (issue) { setError((issue as Error).message); }
+    finally { setLoading(false); }
+  };
+  return <div className="announce-page"><section className="announce-hero"><div className="container announce-hero-grid"><div><span className="eyebrow eyebrow-light">ANUNCIE COM A GENTE</span><h1>Seu imóvel pode ser<br /><em>o próximo lar de alguém.</em></h1><p>Conte um pouco sobre ele. Nossa equipe analisa as informações e conversa com você sobre os próximos passos.</p><div className="announce-points"><span><Check size={15} /> Atendimento próximo</span><span><Check size={15} /> Avaliação sem compromisso</span></div></div><div className="announce-hero-icon"><div><HousePlus size={45} strokeWidth={1.4} /></div><span>Novos começos<br />começam com uma conversa.</span></div></div></section><section className="container announce-form-grid"><div className="announce-form-intro"><span className="eyebrow">PRIMEIRO PASSO</span><h2>Vamos conhecer<br />o seu imóvel?</h2><p>Preencha o formulário. As informações serão encaminhadas para revisão da nossa equipe e não serão publicadas automaticamente.</p><div className="privacy-assurance"><ShieldCheck size={19} /><span>Seus dados de contato serão acessados somente por pessoas autorizadas a atender esta solicitação.</span></div></div><div className="owner-form-card">{sent ? <div className="form-success"><div><Check size={23} /></div><h3>Recebemos suas informações.</h3><p>Nossa equipe vai analisar os dados e poderá entrar em contato para entender melhor o seu imóvel.</p><button className="button button-outline" onClick={() => setSent(false)}>Enviar outro imóvel</button></div> : <form className="owner-form" onSubmit={submit}><div className="form-card-heading"><span className="eyebrow">SOLICITAÇÃO DE ANÚNCIO</span><h3>Fale um pouco sobre ele.</h3></div><div className="form-grid-two"><label className="form-field"><span>Seu nome *</span><input name="name" required minLength={2} placeholder="Nome completo" /></label><label className="form-field"><span>Telefone *</span><input name="phone" required type="tel" minLength={8} placeholder="(00) 00000-0000" /></label><label className="form-field"><span>E-mail</span><input name="email" type="email" placeholder="voce@email.com" /></label><label className="form-field"><span>Tipo do imóvel</span><select name="propertyType" defaultValue=""><option value="" disabled>Selecione</option><option value="house">Casa</option><option value="apartment">Apartamento</option><option value="penthouse">Cobertura</option><option value="duplex">Duplex</option><option value="land">Terreno</option><option value="other">Outro</option></select></label><label className="form-field"><span>Cidade</span><input name="city" placeholder="Ex.: Recife" /></label><label className="form-field"><span>Bairro</span><input name="neighborhood" placeholder="Bairro do imóvel" /></label><label className="form-field form-field-full"><span>Finalidade desejada</span><select name="purpose" defaultValue=""><option value="">Ainda não decidi</option><option value="sale">Venda</option><option value="rent">Aluguel</option><option value="both">Venda ou aluguel</option></select></label><label className="form-field form-field-full"><span>Mais detalhes</span><textarea name="message" rows={4} placeholder="O que você gostaria que soubéssemos sobre o imóvel?" /></label></div><label className="consent-check"><input type="checkbox" name="consent" required /><span>Autorizo o uso dos dados informados para analisar esta solicitação e entrar em contato. Consulte a <Link to="/privacidade">política de privacidade</Link>.</span></label>{error && <p className="form-error">{error}</p>}<button className="button button-primary button-full" disabled={loading}>{loading ? 'Enviando…' : 'Enviar para análise'} <ArrowRight size={16} /></button><small className="form-footnote">Enviar este formulário não publica o anúncio. Todo imóvel passa por análise e aprovação da equipe.</small></form>}</div></section></div>;
+}
