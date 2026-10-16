@@ -48,6 +48,7 @@ img { max-width: 100%; display: block; }
 .site-header { position: sticky; z-index: 60; top: 0; height: 76px; background: rgba(255,255,255,.96); backdrop-filter: blur(14px); border-bottom: 1px solid rgba(16,42,67,.07); }
 .site-header-inner { height: 100%; display: flex; align-items: center; justify-content: space-between; gap: 30px; }
 .brand { display: inline-flex; align-items: center; gap: 10px; flex: 0 0 auto; color: var(--navy); }
+.brand-logo-image { display: block; width: 174px; height: 48px; max-width: 28vw; object-fit: contain; object-position: left center; }
 .brand-symbol { width: 40px; height: 40px; border-radius: 11px; display: grid; place-items: center; position: relative; background: var(--navy); color: #fff; }
 .brand-monogram { font-family: Georgia, 'Times New Roman', serif; font-size: 25px; line-height: 1; font-weight: 400; }
 .brand-symbol .brand-accent { position: absolute; width: 6px; height: 6px; right: 7px; top: 7px; border-radius: 50%; background: var(--green); border: 1px solid var(--navy); }
@@ -1412,6 +1413,7 @@ img { max-width: 100%; display: block; }
 .public-shell .site-header { position: relative; height: 78px; background: var(--redes-paper); border-bottom: 1px solid var(--redes-line); backdrop-filter: none; }
 .public-shell .site-header-inner { gap: 34px; }
 .public-shell .brand { gap: 11px; }
+.public-shell .brand-logo-image { width: 174px; height: 48px; max-width: 24vw; }
 .public-shell .brand-symbol { width: 36px; height: 36px; border-radius: 2px; background: var(--navy); }
 .public-shell .brand-monogram { font-size: 24px; }
 .public-shell .brand-copy strong { font-size: 11px; letter-spacing: .09em; }
@@ -1535,6 +1537,7 @@ img { max-width: 100%; display: block; }
 }
 @media (max-width: 850px) {
   .public-shell .site-header { height: 68px; }
+  .public-shell .brand-logo-image { width: 155px; height: 44px; max-width: 32vw; }
   .public-shell .main-nav { top: 68px; padding: 8px 20px 15px; background: var(--redes-paper); border-bottom: 1px solid var(--redes-line); box-shadow: 0 12px 20px rgba(16,42,67,.08); }
   .public-shell .main-nav a { padding: 12px 3px; border-bottom: 1px solid #e8e5dd; }
   .public-shell .main-nav a.active::after { display: none; }
@@ -1561,6 +1564,7 @@ img { max-width: 100%; display: block; }
   .public-shell .site-header { height: 64px; }
   .public-shell .main-nav { top: 64px; }
   .public-shell .brand-symbol { width: 33px; height: 33px; }
+  .public-shell .brand-logo-image { width: 138px; height: 41px; max-width: 42vw; }
   .public-shell .brand-copy strong { font-size: 9px; }
   .public-shell .brand-copy small { font-size: 6px; letter-spacing: .06em; }
   .public-shell .header-announce { max-width: 122px; min-height: 33px; padding: 7px 8px; font-size: 8px; }
